@@ -15,9 +15,9 @@ def get_age_bracket(age):
         return "65+"
 
 def get_income_bracket(income):
-    if income < 55820:
+    if income < 56600:
         return "lower"
-    elif 55820 <= income <= 167460:
+    elif 56600 <= income <= 161200:
         return "middle"
     else:
         return "higher"
@@ -83,5 +83,6 @@ print(f"Gender: {gender} → {gender_percent}% likelihood")
 print(f"Income bracket: {income_bracket} → {income_percent}% likelihood")
 
 print(f"\nCombined estimated likelihood: {combined:.2f}%")
+
 
 
