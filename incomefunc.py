@@ -1,19 +1,21 @@
-ageEx = {
-    "Under 25": 39138,
-    "25-34": 60835,
-    "35-44": 74968,
-    "45-54": 77815,
-    "55-64": 67735,
-    "65-74": 57455,
-    "75+": 51138
+ageIn = {
+    "Under 25": 48514,
+    "25-34": 102494,
+    "35-44": 128285,
+    "45-54": 100327,
+    "55-64": 121571,
+    "65-74": 75460,
+    "75+": 56028
 }
-regionEx = {
-    "Northeast": 68959,
-    "Midwest": 59867,
-    "South": 59108,
-    "West": 75473
+regionIn = {
+    "Northeast": 115770,
+    "Midwest": 97104,
+    "South": 93814,
+    "West": 120365
 }
-regionExAvg = sum(regionEx.values())/4
+
+regionInAvg = sum(regionIn.values())/4
+
 state_to_region = {
     # South
     "TN": "South", "AL": "South", "GA": "South", "FL": "South",
@@ -55,7 +57,7 @@ def get_age_group(age):
     else:
         return "75+"
 
-def estimate_expenditure(age, state):
+def estimate_income(age, state):
     state = state.upper()
 
     if state not in state_to_region:
@@ -64,10 +66,10 @@ def estimate_expenditure(age, state):
     region = state_to_region[state]
     age_group = get_age_group(age)
 
-    base_spending = ageEx[age_group]
-    region_ratio = regionEx[region] / regionExAvg
+    base_spending = ageIn[age_group]
+    region_ratio = regionIn[region] / regionInAvg
     adjusted_spending = base_spending * region_ratio
 
     return round(adjusted_spending, 2)
 
-print(estimate_expenditure(65, "CA"))
+print(estimate_income(65, "CA"))
