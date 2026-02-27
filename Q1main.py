@@ -119,7 +119,7 @@ def estimate_expenditure(age, state):
 
     return round(adjusted_spending, 2)
 
-def main(income, state, marital_status):
-    return calculate_after_tax_income(income, state, marital_status) - estimate_expenditure(income, state)
+def main(income, age, state, marital_status):
+    return calculate_after_tax_income(income, state, marital_status) - estimate_expenditure(age, state)
 
-print(main(100000, "TN", "married"))
+print(main(70000,20, "AL", "single"))
