@@ -84,3 +84,4 @@ print(f"Income bracket: {income_bracket} → {income_percent}% likelihood")
 
 print(f"\nCombined estimated likelihood: {combined:.2f}%")
 
+
