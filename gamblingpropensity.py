@@ -30,10 +30,3 @@ def get_gambling_decision(tolerance):
     did_gamble = np.random.random() < daily_urge
 
     return daily_urge, did_gamble
-
-
-# --- Test Run ---
-urge, result = get_gambling_decision(0.8)
-
-print(f"Daily Urge: {urge:.1%}")
-print(f"Gambled? {'Yes' if result else 'No'}")
