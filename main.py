@@ -62,8 +62,3 @@ class individual:
         self.location = location
         self.risk_tolerance = risk_tolerance
         self.income_after_tax = calculate_after_tax_income(income, location, marital_status)
-
-
-
-
-
