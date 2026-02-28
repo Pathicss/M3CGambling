@@ -4,6 +4,7 @@ import json
 import random
 from gamblingpropensity import get_gambling_decision
 from daily_gambling_spending_estimate import daily_gambling_spend
+from initial_t_value_calculator import getTolerance
 
 
 #tax
@@ -138,19 +139,18 @@ def calculate_win_probability(house_edge = 0.0626, profit_factor=0.91):
 
 
 class individual:
-    def __init__(self, age, gender, income, location, marital_status, risk_tolerance):
+    def __init__(self, age, gender, race, income, location, marital_status):
         self.age = age
         self.gender = gender
+        self.race = race
         self.income = income
         self.location = location
-        self.risk_tolerance = risk_tolerance
+        self.marital_status = marital_status
+        self.risk_tolerance = getTolerance(age, gender, race, income)
         self.income_after_tax = calculate_after_tax_income(income, location, marital_status)
         self.disposable_income = disposableincome(income, age, location, marital_status)
         self.daily_disposable_income = self.disposable_income/365
-
-
-Bob = individual(30,"boy", 120000, "NY", "single", 1)
-print(Bob.disposable_income)
+        self.attributes = self.age, self.gender, self.income, self.location, self.marital_status, self.race
 
 def Simulation(individual):
     daylist = []
@@ -158,53 +158,59 @@ def Simulation(individual):
     winslist = []
     daysgambled = 0
     debtlist = []
+    debt = 0
     for i in range(0,365):
         daylist.append(i)
         urge, result = get_gambling_decision(individual.risk_tolerance)
         urgelist.append(urge)
+        individual.daily_disposable_income -= sum(debtlist) * 0.0002
+        individual.daily_disposable_income = max(0.01, individual.daily_disposable_income)
         if result:
-            wager = daily_gambling_spend(individual.disposable_income, individual.risk_tolerance)
+            wager = daily_gambling_spend(individual.daily_disposable_income, individual.risk_tolerance)
             daysgambled += 1
-            if wager > (individual.daily_disposable_income):
-                debt = (individual.daily_disposable_income) - wager  # will be negitive bc wager > daily income
+            if wager > (individual.daily_disposable_income): # seeing if individual takes on debt to make wager
+                debt = wager - (individual.daily_disposable_income)  # will be negitive bc wager > daily income
             else:
                 debt = 0
-            if random.random() < calculate_win_probability(house_edge = 0.0626, profit_factor=0.91):
-                    winslist.append((wager*0.91)+debt)
+            if random.random() < calculate_win_probability(house_edge = 0.0626, profit_factor=0.91): #if we win, we add winnings to win list
+                    winslist.append(wager*0.91)
+                    adjustment = 0.005 * (wager * 0.91 / individual.daily_disposable_income)
+                    individual.risk_tolerance = min(1.0, individual.risk_tolerance + adjustment)
             else:
                 winslist.append(wager*-1)
                 debtlist.append(debt)
         else: #this is for if he didn't gamble
             winslist.append(0)
-    print(sum(debtlist)/len(debtlist))
     return urgelist, winslist, daysgambled, sum(debtlist)
 
 
-def individualSimulations(individual):
+def individualSimulations(person):
     netwin = []
     totaldebt = []
+    bankruptcies = 0  # Track bankruptcies
+    age, gender, income, location, marital_status, race = person.attributes
     for i in range(0, 1000):
-        urgelist, winslist, daysgambled, debt = Simulation(Bob)
+        fresh_person = individual(age, gender, race, income, location, marital_status)
+        urgelist, winslist, daysgambled, debt = Simulation(fresh_person)
         netwin.append(sum(winslist))
         totaldebt.append(debt)
+
+        # Check if the person ended the year at the income floor
+        if fresh_person.daily_disposable_income <= 0.01:
+            bankruptcies += 1
+
     print(f"net wins: {sum(netwin) / 1000}")
     print(f"debt: {sum(totaldebt) / 1000}")
+    print(f"bankruptcy rate: {bankruptcies / 10}%")  # Percentage of 1000
     return sum(netwin) / 1000
 
+
+Bob = individual(30,"male", "white", 120000, "NY", "single")
+Bob_tx = individual(30,"male", "white", 120000, "TX", "single")
+Barbra = individual(50, "female", "black", 1000000000000, "MI", "single")
+Wesely = individual(18, "male", "asian", 300000, "NY", "single")
+Wesely.risk_tolerance = 0.5
+
 individualSimulations(Bob)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+individualSimulations(Barbra)
+individualSimulations(Wesely)

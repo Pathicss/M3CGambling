@@ -3,28 +3,26 @@ import math
 
 def k_from_tolerance(t):
     # Logistic curve for smooth, realistic growth of k
-    min_k = 0.01      # minimum share of income spent
+    min_k = 0.000001      # minimum share of income spent
     max_k = 1.2      # maximum share of income spent
-    steepness = 6     # controls how sharply k increases around t=0.5
+    steepness = 10     # controls how sharply k increases around t=0.7
 
     # Logistic function
-    logistic = 1 / (1 + math.exp(-steepness * (t - 0.5)))
+    logistic = 1 / (1 + math.exp(-steepness * (t - 0.8)))
 
     # Scale logistic output into [min_k, max_k]
     return min_k + (max_k - min_k) * logistic
 
 def daily_gambling_spend(income, tolerance):
-    income = income/365
     # k now comes from logistic curve
     k = k_from_tolerance(tolerance)
 
 
     # Mean daily spend
     mean = k * income
-    print(f"mean is {mean}")
 
     # Standard deviation proportional to mean
-    std = mean * 0.4
+    std = mean * 0.2
 
     # Sample from normal distribution
     spend = np.random.normal(loc=mean, scale=std)
