@@ -60,8 +60,107 @@ def life_hours_lost(income, state, marital_status, annual_work_hours, annual_gam
 print(round(life_hours_lost(
     income = 20000,
     state = "TN",
-    marital_status = "single",  
+    marital_status = "single",
     annual_work_hours=2000,
     annual_gambling_loss=2000,
     betting_sessions_per_week=4,
     minutes_per_session=25),3))
+
+# Profile: High Frequency / Low Individual Stakes
+# Characterized by many short sessions throughout the week.
+print(round(life_hours_lost(
+    income = 45000,
+    state = "TN",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 3500,
+    betting_sessions_per_week = 14,
+    minutes_per_session = 10), 3))
+
+# Profile: High Ratio / Entry-Level Income
+# Significant financial impact relative to a lower hourly wage.
+print(round(life_hours_lost(
+    income = 32000,
+    state = "TN",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 4000,
+    betting_sessions_per_week = 5,
+    minutes_per_session = 30), 3))
+
+# Profile: Extended Session / Median Income
+# Characterized by fewer but much longer periods of engagement.
+print(round(life_hours_lost(
+    income = 65000,
+    state = "TN",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 2500,
+    betting_sessions_per_week = 3,
+    minutes_per_session = 120), 3))
+
+# Profile: Large-Scale Loss / High Income
+# High absolute dollar loss requiring significant work hours to recover despite higher pay.
+print(round(life_hours_lost(
+    income = 140000,
+    state = "TN",
+    marital_status = "married",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 18000,
+    betting_sessions_per_week = 7,
+    minutes_per_session = 45), 3))
+
+# Profile: Pattern A (Higher Income in a High-Tax State)
+# California's tax brackets will significantly lower the net hourly wage.
+print(round(life_hours_lost(
+    income = 120000,
+    state = "CA",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 8000,
+    betting_sessions_per_week = 5,
+    minutes_per_session = 45), 3))
+
+# Profile: Pattern B (Mid-Range Income in a Flat-Tax State)
+# North Carolina (NC) typically uses a flat tax rate.
+print(round(life_hours_lost(
+    income = 52000,
+    state = "NC",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 2500,
+    betting_sessions_per_week = 3,
+    minutes_per_session = 30), 3))
+
+# Profile: Pattern C (Lower Income in a No-Tax State)
+# Florida (FL) has no state income tax, maximizing the net hourly wage.
+print(round(life_hours_lost(
+    income = 30000,
+    state = "FL",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 1500,
+    betting_sessions_per_week = 10,
+    minutes_per_session = 15), 3))
+
+# Profile: Pattern D (High-Intensity Engagement in New York)
+# New York (NY) has significant state and sometimes local taxes.
+print(round(life_hours_lost(
+    income = 85000,
+    state = "NY",
+    marital_status = "married",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 5000,
+    betting_sessions_per_week = 14,
+    minutes_per_session = 20), 3))
+
+# Profile: Pattern E (High Loss Ratio in Texas)
+# Texas (TX) has no state income tax, but the loss amount is high relative to income.
+print(round(life_hours_lost(
+    income = 40000,
+    state = "TX",
+    marital_status = "single",
+    annual_work_hours = 2000,
+    annual_gambling_loss = 6000,
+    betting_sessions_per_week = 4,
+    minutes_per_session = 60), 3))

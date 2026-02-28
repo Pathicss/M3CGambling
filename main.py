@@ -136,8 +136,6 @@ def calculate_win_probability(house_edge = 0.0626, profit_factor=0.91):
         p = 1.0
     return p
 
-
-
 class individual:
     def __init__(self, age, gender, race, income, location, marital_status):
         self.age = age
@@ -169,7 +167,7 @@ def Simulation(individual):
             wager = daily_gambling_spend(individual.daily_disposable_income, individual.risk_tolerance)
             daysgambled += 1
             if wager > (individual.daily_disposable_income): # seeing if individual takes on debt to make wager
-                debt = wager - (individual.daily_disposable_income)  # will be negitive bc wager > daily income
+                debt = wager - (individual.daily_disposable_income)
             else:
                 debt = 0
             if random.random() < calculate_win_probability(house_edge = 0.0626, profit_factor=0.91): #if we win, we add winnings to win list
@@ -182,7 +180,6 @@ def Simulation(individual):
         else: #this is for if he didn't gamble
             winslist.append(0)
     return urgelist, winslist, daysgambled, sum(debtlist)
-
 
 def individualSimulations(person):
     netwin = []
@@ -207,7 +204,7 @@ def individualSimulations(person):
 
 Bob = individual(30,"male", "white", 120000, "NY", "single")
 Bob_tx = individual(30,"male", "white", 120000, "TX", "single")
-Barbra = individual(50, "female", "black", 1000000000000, "MI", "single")
+Barbra = individual(50, "female", "black", 1000000, "MI", "single")
 Wesely = individual(18, "male", "asian", 300000, "NY", "single")
 Wesely.risk_tolerance = 0.5
 
